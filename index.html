@@ -1,0 +1,1293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>YouTube Shopping — Executive Brief Trafilea</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.5.0/dist/chart.umd.js" integrity="sha384-iU8HYtnGQ8Cy4zl7gbNMOhsDTTKX02BTXptVP/vqAWIaTfM7isw76iyZCsjL2eVi" crossorigin="anonymous"></script>
+<style>
+  :root {
+    color-scheme: light;
+    --primary: #0F2A47;
+    --primary-light: #1E40AF;
+    --accent: #FF0033;
+    --teal: #0D9488;
+    --gold: #D97706;
+    --success: #10B981;
+    --bg: #F7F8FA;
+    --bg-white: #FFFFFF;
+    --bg-soft: #EEF2F6;
+    --text: #111827;
+    --text-muted: #6B7280;
+    --border: #E5E7EB;
+    --shadow: 0 1px 3px rgba(15, 42, 71, 0.06), 0 1px 2px rgba(15, 42, 71, 0.04);
+    --shadow-lg: 0 4px 12px rgba(15, 42, 71, 0.08), 0 2px 4px rgba(15, 42, 71, 0.04);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.55;
+    font-size: 15px;
+    padding: 0;
+  }
+  .container { max-width: 1240px; margin: 0 auto; padding: 0 28px; }
+  /* HEADER */
+  .header {
+    background: linear-gradient(135deg, #0F2A47 0%, #1E3A5F 60%, #2C4F7E 100%);
+    color: white;
+    padding: 44px 0 36px;
+    margin-bottom: 32px;
+    border-bottom: 4px solid var(--accent);
+  }
+  .header-meta {
+    font-size: 12px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    opacity: 0.75;
+    margin-bottom: 10px;
+  }
+  .header h1 {
+    font-size: 38px;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    line-height: 1.15;
+    margin-bottom: 8px;
+  }
+  .header h1 .accent { color: #FF6B7A; }
+  .header .subtitle {
+    font-size: 16px;
+    opacity: 0.85;
+    font-weight: 400;
+    max-width: 820px;
+  }
+  .header-tags {
+    margin-top: 18px;
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  .header-tag {
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.2);
+    padding: 4px 11px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 500;
+  }
+
+  /* SECTIONS */
+  .section { margin-bottom: 48px; }
+  .section-label {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1.8px;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 8px;
+  }
+  h2 {
+    font-size: 26px;
+    color: var(--primary);
+    font-weight: 700;
+    margin-bottom: 6px;
+    letter-spacing: -0.3px;
+  }
+  h3 {
+    font-size: 18px;
+    color: var(--primary);
+    font-weight: 600;
+    margin-bottom: 12px;
+  }
+  .section-intro {
+    font-size: 15px;
+    color: var(--text-muted);
+    max-width: 880px;
+    margin-bottom: 22px;
+  }
+
+  /* KPI STRIP */
+  .kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 14px;
+    margin-bottom: 8px;
+  }
+  .kpi-card {
+    background: var(--bg-white);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px 18px;
+    box-shadow: var(--shadow);
+    position: relative;
+    overflow: hidden;
+  }
+  .kpi-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: var(--accent);
+  }
+  .kpi-card.teal::before { background: var(--teal); }
+  .kpi-card.gold::before { background: var(--gold); }
+  .kpi-card.green::before { background: var(--success); }
+  .kpi-card.primary::before { background: var(--primary-light); }
+  .kpi-value {
+    font-size: 30px;
+    font-weight: 700;
+    color: var(--primary);
+    letter-spacing: -0.8px;
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+  .kpi-label {
+    font-size: 12px;
+    color: var(--text-muted);
+    line-height: 1.35;
+    margin-top: 6px;
+  }
+  .kpi-trend {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 2px 7px;
+    border-radius: 4px;
+    margin-top: 6px;
+  }
+  .kpi-trend.up { background: #D1FAE5; color: #065F46; }
+  .kpi-trend.note { background: #FEF3C7; color: #92400E; }
+
+  /* CALLOUT */
+  .callout {
+    background: linear-gradient(135deg, #FFF7ED 0%, #FFEDD5 100%);
+    border-left: 4px solid var(--gold);
+    border-radius: 10px;
+    padding: 20px 24px;
+    margin-bottom: 32px;
+    box-shadow: var(--shadow);
+  }
+  .callout-title {
+    font-weight: 700;
+    color: #92400E;
+    font-size: 15px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 8px;
+  }
+  .callout-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 22px;
+    height: 22px;
+    background: var(--gold);
+    color: white;
+    border-radius: 50%;
+    font-size: 13px;
+    font-weight: 700;
+  }
+  .callout p { font-size: 14px; color: #78350F; line-height: 1.55; }
+  .callout p + p { margin-top: 6px; }
+  .callout ul { margin-top: 8px; padding-left: 18px; }
+  .callout li { font-size: 14px; color: #78350F; margin-bottom: 4px; }
+  .callout li strong { color: #5C2A07; }
+
+  /* SURFACES (5 cards horizontal) */
+  .surfaces-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 12px;
+  }
+  .surface-card {
+    background: var(--bg-white);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 18px;
+    box-shadow: var(--shadow);
+    text-align: center;
+  }
+  .surface-icon {
+    width: 38px;
+    height: 38px;
+    margin: 0 auto 10px;
+    border-radius: 9px;
+    background: var(--bg-soft);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    color: var(--primary);
+  }
+  .surface-name {
+    font-weight: 700;
+    font-size: 13px;
+    color: var(--primary);
+    margin-bottom: 6px;
+  }
+  .surface-desc {
+    font-size: 11.5px;
+    color: var(--text-muted);
+    line-height: 1.4;
+  }
+
+  /* MODELS (3 cards) */
+  .models-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+  }
+  .model-card {
+    background: var(--bg-white);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 24px;
+    box-shadow: var(--shadow);
+    position: relative;
+  }
+  .model-card .ribbon {
+    position: absolute;
+    top: -10px; right: 18px;
+    background: var(--accent);
+    color: white;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    padding: 4px 10px;
+    border-radius: 4px;
+  }
+  .model-card h4 {
+    color: var(--primary);
+    font-size: 17px;
+    margin-bottom: 8px;
+    font-weight: 700;
+  }
+  .model-card .model-meta {
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-bottom: 10px;
+  }
+  .model-card p { font-size: 14px; color: var(--text); line-height: 1.5; }
+  .model-card ul { margin-top: 10px; padding-left: 18px; }
+  .model-card li { font-size: 13px; color: var(--text-muted); margin-bottom: 4px; }
+
+  /* CHARTS */
+  .charts-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+  .chart-card {
+    background: var(--bg-white);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 22px;
+    box-shadow: var(--shadow);
+  }
+  .chart-card h4 {
+    color: var(--primary);
+    font-size: 15px;
+    margin-bottom: 4px;
+    font-weight: 700;
+  }
+  .chart-card .chart-sub {
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-bottom: 14px;
+  }
+  .chart-wrapper { position: relative; height: 240px; }
+
+  /* VIDEO CARDS */
+  .videos-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+    margin-bottom: 24px;
+  }
+  .video-card {
+    background: var(--bg-white);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  .video-card:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-lg);
+  }
+  .video-thumb-link {
+    display: block;
+    text-decoration: none;
+    position: relative;
+  }
+  .video-thumb {
+    aspect-ratio: 16/9;
+    background: linear-gradient(135deg, #0F2A47 0%, #1E3A5F 100%);
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .video-thumb::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(circle at 30% 30%, rgba(255,107,122,0.12) 0%, transparent 50%),
+      radial-gradient(circle at 70% 70%, rgba(13,148,136,0.10) 0%, transparent 50%);
+  }
+  .video-thumb.thumb-1 { background: linear-gradient(135deg, #7C2D5C 0%, #C2185B 100%); }
+  .video-thumb.thumb-2 { background: linear-gradient(135deg, #1E3A5F 0%, #475569 100%); }
+  .video-thumb.thumb-3 { background: linear-gradient(135deg, #B45309 0%, #92400E 100%); }
+  .video-play-icon {
+    position: absolute;
+    width: 64px;
+    height: 64px;
+    background: rgba(255,0,51,0.95);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.3);
+    z-index: 2;
+    transition: transform 0.2s ease;
+  }
+  .video-card:hover .video-play-icon { transform: scale(1.1); }
+  .video-play-icon svg { width: 24px; height: 24px; fill: white; margin-left: 4px; }
+  .video-thumb-overlay {
+    position: absolute;
+    bottom: 12px;
+    left: 14px;
+    right: 14px;
+    z-index: 2;
+    color: white;
+  }
+  .video-thumb-handle {
+    font-size: 12px;
+    font-weight: 600;
+    opacity: 0.95;
+    margin-bottom: 2px;
+    letter-spacing: 0.3px;
+  }
+  .video-thumb-title {
+    font-size: 13px;
+    font-weight: 700;
+    line-height: 1.3;
+    text-shadow: 0 1px 4px rgba(0,0,0,0.4);
+  }
+  .video-thumb-yt-badge {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    background: rgba(255,255,255,0.95);
+    color: #0F2A47;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.6px;
+    padding: 4px 8px;
+    border-radius: 4px;
+    z-index: 2;
+    text-transform: uppercase;
+  }
+  .video-body { padding: 16px 18px 18px; }
+  .video-creator {
+    font-weight: 700;
+    color: var(--primary);
+    font-size: 15px;
+    margin-bottom: 4px;
+  }
+  .video-handle {
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-bottom: 8px;
+  }
+  .video-handle a { color: var(--text-muted); text-decoration: none; }
+  .video-handle a:hover { color: var(--accent); }
+  .video-result {
+    background: linear-gradient(90deg, #FEF2F2 0%, #FFE4E6 100%);
+    border-left: 3px solid var(--accent);
+    padding: 8px 12px;
+    border-radius: 4px;
+    margin-bottom: 8px;
+  }
+  .video-result strong { color: var(--accent); font-size: 17px; font-weight: 700; }
+  .video-result span { font-size: 12px; color: var(--text); display: block; margin-top: 2px; }
+  .video-desc { font-size: 12.5px; color: var(--text-muted); line-height: 1.45; }
+
+  /* CREATORS MINI CARDS */
+  .creators-mini-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+  }
+  .creator-mini {
+    background: var(--bg-white);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px;
+    box-shadow: var(--shadow);
+  }
+  .creator-mini-name {
+    font-weight: 700;
+    color: var(--primary);
+    font-size: 14px;
+    margin-bottom: 2px;
+  }
+  .creator-mini-niche {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    color: var(--teal);
+    font-weight: 600;
+    margin-bottom: 8px;
+  }
+  .creator-mini-result {
+    font-weight: 700;
+    color: var(--accent);
+    font-size: 13px;
+    margin-bottom: 6px;
+  }
+  .creator-mini-desc { font-size: 12px; color: var(--text-muted); line-height: 1.4; margin-bottom: 8px; }
+  .creator-mini-note {
+    font-size: 10.5px;
+    color: #94A3B8;
+    line-height: 1.35;
+    margin-bottom: 8px;
+    padding: 6px 8px;
+    background: #F8FAFC;
+    border-left: 2px solid #CBD5E1;
+    border-radius: 3px;
+  }
+  .creator-mini a {
+    font-size: 11px;
+    color: var(--primary-light);
+    text-decoration: none;
+    font-weight: 500;
+  }
+  .creator-mini a:hover { text-decoration: underline; }
+
+  /* BRAND GRID */
+  .brands-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 14px;
+  }
+  .brand-card {
+    background: var(--bg-white);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 18px 16px;
+    box-shadow: var(--shadow);
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+  }
+  .brand-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+  }
+  .brand-name {
+    font-weight: 700;
+    color: var(--primary);
+    font-size: 16px;
+    margin-bottom: 4px;
+  }
+  .brand-tag {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    background: var(--bg-soft);
+    color: var(--primary);
+    padding: 2px 8px;
+    border-radius: 4px;
+    margin-bottom: 10px;
+  }
+  .brand-impl {
+    font-size: 12.5px;
+    color: var(--text);
+    line-height: 1.45;
+    margin-bottom: 10px;
+  }
+  .brand-link {
+    font-size: 11px;
+    color: var(--primary-light);
+    text-decoration: none;
+    font-weight: 500;
+    word-break: break-all;
+  }
+  .brand-link:hover { text-decoration: underline; }
+
+  /* TRAFILEA PLAYS */
+  .plays-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+  }
+  .play-card {
+    background: linear-gradient(135deg, #FFFFFF 0%, #F8FAFC 100%);
+    border: 1px solid var(--border);
+    border-left: 4px solid var(--teal);
+    border-radius: 10px;
+    padding: 22px;
+    box-shadow: var(--shadow);
+  }
+  .play-card .play-num {
+    display: inline-flex;
+    width: 28px;
+    height: 28px;
+    background: var(--teal);
+    color: white;
+    border-radius: 50%;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 13px;
+    margin-bottom: 10px;
+  }
+  .play-card h4 {
+    color: var(--primary);
+    font-size: 15px;
+    font-weight: 700;
+    margin-bottom: 6px;
+  }
+  .play-card p { font-size: 13px; color: var(--text); line-height: 1.5; }
+  .play-card .play-impact {
+    margin-top: 10px;
+    font-size: 12px;
+    color: var(--teal);
+    font-weight: 600;
+  }
+
+  /* APPENDIX */
+  .appendix {
+    background: var(--bg-white);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 22px 26px;
+    box-shadow: var(--shadow);
+  }
+  .appendix-cols {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+  }
+  .appendix h4 {
+    color: var(--primary);
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 8px;
+  }
+  .appendix ul { list-style: none; }
+  .appendix li {
+    font-size: 12.5px;
+    color: var(--text-muted);
+    margin-bottom: 5px;
+    line-height: 1.45;
+  }
+  .appendix a {
+    color: var(--primary-light);
+    text-decoration: none;
+  }
+  .appendix a:hover { text-decoration: underline; color: var(--accent); }
+
+  /* FOOTER */
+  .footer {
+    text-align: center;
+    color: var(--text-muted);
+    font-size: 11.5px;
+    padding: 32px 0;
+    margin-top: 30px;
+    border-top: 1px solid var(--border);
+  }
+
+  /* DIVIDER */
+  .divider-decoration {
+    height: 1px;
+    background: linear-gradient(90deg, transparent 0%, var(--border) 50%, transparent 100%);
+    margin: 40px 0;
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 1100px) {
+    .kpi-grid { grid-template-columns: repeat(3, 1fr); }
+    .kpi-grid .kpi-card:nth-child(4),
+    .kpi-grid .kpi-card:nth-child(5) { grid-column: span 1; }
+    .kpi-grid .kpi-card:nth-child(4) { grid-column-start: 1; }
+    .surfaces-grid, .models-grid, .videos-grid, .creators-mini-grid, .plays-grid { grid-template-columns: repeat(2, 1fr); }
+    .brands-grid { grid-template-columns: repeat(2, 1fr); }
+    .charts-grid { grid-template-columns: 1fr; }
+    .appendix-cols { grid-template-columns: 1fr; }
+    .header h1 { font-size: 30px; }
+  }
+  @media (max-width: 720px) {
+    .kpi-grid { grid-template-columns: repeat(2, 1fr); }
+    .surfaces-grid, .models-grid, .videos-grid, .creators-mini-grid, .plays-grid { grid-template-columns: 1fr; }
+    .brands-grid { grid-template-columns: 1fr; }
+    .container { padding: 0 18px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="container">
+    <div class="header-meta">Executive Brief · Trafilea Research · May 2026</div>
+    <h1>YouTube Shopping <span class="accent">/</span> 2026 Maturity Snapshot</h1>
+    <div class="subtitle">Deep research on YouTube's social commerce ecosystem — what it is, how it works, brands and creators with verifiable evidence, and actionable plays for Trafilea.</div>
+    <div class="header-tags">
+      <span class="header-tag">DTC · Beauty · Apparel · Shapewear</span>
+      <span class="header-tag">USD 100B+ paid to creators</span>
+      <span class="header-tag">+250% YoY shopping content</span>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- 0. EXECUTIVE KPI STRIP -->
+  <div class="section">
+    <span class="section-label">01 · Executive Brief</span>
+    <h2>The ecosystem in five numbers</h2>
+    <p class="section-intro">YouTube Shopping has moved from a limited experiment to mainstream social commerce infrastructure. Official YouTube/Google data and trade press point to an inflection point.</p>
+    <div class="kpi-grid">
+      <div class="kpi-card">
+        <div class="kpi-value">35B</div>
+        <div class="kpi-label">Hours of shopping-related content watched on YouTube in the past year</div>
+        <span class="kpi-trend up">↑ 250% YoY</span>
+      </div>
+      <div class="kpi-card teal">
+        <div class="kpi-value">5×</div>
+        <div class="kpi-label">Year-over-year GMV (Gross Merchandise Volume) growth reported by YouTube</div>
+        <span class="kpi-trend up">Sept 2025</span>
+      </div>
+      <div class="kpi-card primary">
+        <div class="kpi-value">500K+</div>
+        <div class="kpi-label">Creators globally enrolled in the Affiliate Program (Jul 2025)</div>
+        <span class="kpi-trend note">Threshold dropped to 500 subs (Mar 2026)</span>
+      </div>
+      <div class="kpi-card gold">
+        <div class="kpi-value">89%</div>
+        <div class="kpi-label">Of viewers trust YouTube creator recommendations (TalkShoppe)</div>
+        <span class="kpi-trend up">79% Gen Z (Kantar)</span>
+      </div>
+      <div class="kpi-card green">
+        <div class="kpi-value">USD 100B</div>
+        <div class="kpi-label">Paid to creators, artists and media companies over the last 4 years</div>
+        <span class="kpi-trend up">2021–2025</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- WHAT IT IS + 5 SURFACES -->
+  <div class="section">
+    <span class="section-label">02 · What it is</span>
+    <h2>YouTube Shopping in one page</h2>
+    <p class="section-intro">A set of features that turn <strong>long-form videos, Shorts and livestreams</strong> into transactional surfaces. The catalog comes from retailers via Google Merchant Center and/or Shopify; content lives on YouTube; the transaction is completed on the retailer's site (or in-app via Shopify Payments in the US).</p>
+    <h3>The 5 shopping surfaces</h3>
+    <div class="surfaces-grid">
+      <div class="surface-card">
+        <div class="surface-icon">🏪</div>
+        <div class="surface-name">Channel Store</div>
+        <div class="surface-desc">"Store" tab on the creator's page with the full catalog</div>
+      </div>
+      <div class="surface-card">
+        <div class="surface-icon">🛍️</div>
+        <div class="surface-name">Product Shelf</div>
+        <div class="surface-desc">Dynamic carousel below or beside the video player</div>
+      </div>
+      <div class="surface-card">
+        <div class="surface-icon">▶️</div>
+        <div class="surface-name">Shopping Button</div>
+        <div class="surface-desc">Interactive icon in the corner of the video or Short</div>
+      </div>
+      <div class="surface-card">
+        <div class="surface-icon">🏷️</div>
+        <div class="surface-name">Product Stickers / Tags</div>
+        <div class="surface-desc">Product image on screen at the timestamp where it's mentioned</div>
+      </div>
+      <div class="surface-card">
+        <div class="surface-icon">📡</div>
+        <div class="surface-name">Pinned Live</div>
+        <div class="surface-desc">Featured product in chat during a livestream</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- THREE MODELS -->
+  <div class="section">
+    <span class="section-label">03 · How it works</span>
+    <h2>Three operating models</h2>
+    <div class="models-grid">
+      <div class="model-card">
+        <div class="ribbon">CORE</div>
+        <h4>Affiliate Program</h4>
+        <div class="model-meta">For creators · 500+ subs · 12 eligible countries</div>
+        <p>The creator tags products from partnered retailers' catalogs (Nike, Sephora, Walmart, etc.) and earns commission on attributed sales.</p>
+        <ul>
+          <li>Commission 5–20% (15% median)</li>
+          <li>Attribution window 30–50 days</li>
+          <li>Scalable volume bonuses</li>
+          <li>Paid via AdSense in 60–120 days</li>
+        </ul>
+      </div>
+      <div class="model-card">
+        <h4>Direct Store</h4>
+        <div class="model-meta">For creators with their own brand · 1,000+ subs</div>
+        <p>The creator connects their store (Shopify, Spring, Spreadshop, Fourthwall) and sells their own merchandise directly from videos and Channel Store.</p>
+        <ul>
+          <li>Catalog auto-tagging</li>
+          <li>Automatic "YouTube Merch Shelf"</li>
+          <li>Embedded checkout in the US</li>
+        </ul>
+      </div>
+      <div class="model-card">
+        <h4>BrandConnect / Creator Partnerships</h4>
+        <div class="model-meta">For brands + creators · Unified hub Mar 2026</div>
+        <p>Marketplace inside Google Ads where brands find creators for sponsored content and Shopping campaigns. Dynamic brand deal slots in long-form videos (testing 2026).</p>
+        <ul>
+          <li>AI-powered creator-brand fit suggestions</li>
+          <li>Reusable / re-sellable slots</li>
+          <li>Available in US, India, Indonesia, UK, Brazil, Australia, Canada</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider-decoration"></div>
+
+  <!-- CHARTS -->
+  <div class="section">
+    <span class="section-label">04 · The ecosystem in numbers</span>
+    <h2>Four readings of the momentum</h2>
+    <p class="section-intro">Data from official sources (YouTube Blog, Google Blog, TechCrunch, Net Influencer, Kantar, TalkShoppe). Each chart tells a different story: growth, where it pays best, vs. competition, and why creators convert better than ads.</p>
+    <div class="charts-grid">
+      <div class="chart-card">
+        <h4>Hours of shopping content watched on YouTube</h4>
+        <div class="chart-sub">+250% YoY · Official YouTube/Google data</div>
+        <div class="chart-wrapper"><canvas id="chartGrowth"></canvas></div>
+      </div>
+      <div class="chart-card">
+        <h4>Typical commission by category (median / range)</h4>
+        <div class="chart-sub">Global median ~15% · Beauty/Fashion leads · Source: Influencer Marketing Hub</div>
+        <div class="chart-wrapper"><canvas id="chartCommissions"></canvas></div>
+      </div>
+      <div class="chart-card">
+        <h4>YouTube Shopping vs TikTok Shop vs Instagram Shop</h4>
+        <div class="chart-sub">Relative score across 6 dimensions critical for DTC · Official 2026 names</div>
+        <div class="chart-wrapper"><canvas id="chartCompare"></canvas></div>
+      </div>
+      <div class="chart-card">
+        <h4>Why creator commerce performs</h4>
+        <div class="chart-sub">Documented lifts and benchmarks · Sources: YouTube, TalkShoppe, Kantar</div>
+        <div class="chart-wrapper" style="height:300px"><canvas id="chartLifts"></canvas></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CRITICAL NOTE -->
+  <div class="section">
+    <span class="section-label">05 · Note for the board</span>
+    <h2>For this report we don't have real video examples because:</h2>
+    <div class="callout" style="margin-top:14px">
+      <div class="callout-title">
+        <span class="callout-icon">!</span>
+        YouTube Shopping native features are not visible from our region
+      </div>
+      <p>The product shelf, the "View products" button, Shorts stickers and in-app checkout <strong>are not universal</strong>. Their appearance depends on three factors that explain why the board won't see them by clicking on any video from their computer:</p>
+      <ul>
+        <li><strong>Geography:</strong> advanced tagging and the Affiliate Program are live primarily in the US, Korea, India, Brazil, Indonesia, Thailand, Vietnam, Malaysia, the Philippines and Singapore. From Uruguay, Argentina, Spain or Mexico the UI hides the native elements and only shows description links.</li>
+        <li><strong>Device:</strong> the Shopping Button and stickers are optimized for the <strong>YouTube mobile app</strong>. On desktop (web) they turn into a Product Shelf below the player or simply don't appear.</li>
+        <li><strong>Creator setup:</strong> each creator decides which products to show and at which specific timestamps the tags appear.</li>
+      </ul>
+      <p style="margin-top:10px"><strong>Workaround for this report:</strong> the three videos embedded below are <em>official testimonials from the @YouTubeCreators channel</em> where the creators themselves explain and show how they use the platform. They serve as verifiable evidence without depending on local visualization.</p>
+    </div>
+  </div>
+
+  <!-- TESTIMONIAL VIDEOS -->
+  <div class="section">
+    <span class="section-label">06 · Creator cases · Official videos</span>
+    <p class="section-intro">YouTube published this series on its official @YouTubeCreators channel (~10M subs) documenting 3 cases with very different profiles. Click any card to watch on YouTube — these are the canonical testimonials to understand the real impact at the creator level.</p>
+    <div class="videos-grid">
+
+      <div class="video-card">
+        <a class="video-thumb-link" href="https://www.youtube.com/watch?v=U_9NWg51JS8" target="_blank" rel="noopener">
+          <div class="video-thumb thumb-1">
+            <span class="video-thumb-yt-badge">▶ YouTube</span>
+            <div class="video-play-icon"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+            <div class="video-thumb-overlay">
+              <div class="video-thumb-handle">@MsGoldgirl</div>
+              <div class="video-thumb-title">15× Revenue Growth with YouTube Shopping</div>
+            </div>
+          </div>
+        </a>
+        <div class="video-body">
+          <div class="video-creator">Marnie Goldberg</div>
+          <div class="video-handle"><a href="https://www.youtube.com/@MsGoldgirl" target="_blank">@MsGoldgirl</a> · Fashion &amp; Beauty · Women 40+</div>
+          <div class="video-result">
+            <strong>15× revenue growth</strong>
+            <span>after implementing mass tagging + auto-timestamp</span>
+          </div>
+          <div class="video-desc">Walmart, Amazon and Nordstrom hauls. ~120K–312K subs depending on source. Brands: Walmart, Amazon, Nordstrom, HSN, QVC, Tarte, Clinique, Aveda, BaubleBar.</div>
+        </div>
+      </div>
+
+      <div class="video-card">
+        <a class="video-thumb-link" href="https://www.youtube.com/watch?v=MeG27pk6i6c" target="_blank" rel="noopener">
+          <div class="video-thumb thumb-2">
+            <span class="video-thumb-yt-badge">▶ YouTube</span>
+            <div class="video-play-icon"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+            <div class="video-thumb-overlay">
+              <div class="video-thumb-handle">@missejlouie</div>
+              <div class="video-thumb-title">Full-Time Creator Success with YouTube Shopping</div>
+            </div>
+          </div>
+        </a>
+        <div class="video-body">
+          <div class="video-creator">Erica Louie</div>
+          <div class="video-handle"><a href="https://www.youtube.com/@missejlouie" target="_blank">@missejlouie</a> · Fashion · Lifestyle · Capsule wardrobe</div>
+          <div class="video-result">
+            <strong>40–50% of annual income</strong>
+            <span>comes from YouTube Shopping</span>
+          </div>
+          <div class="video-desc">Versatility specialist: "10 pieces = 35 outfits". Brands: Quince, Aritzia. Went from 14 years part-time to full-time creator thanks to the Affiliate + BrandConnect combo.</div>
+        </div>
+      </div>
+
+      <div class="video-card">
+        <a class="video-thumb-link" href="https://www.youtube.com/watch?v=vwYWiDZrEOY" target="_blank" rel="noopener">
+          <div class="video-thumb thumb-3">
+            <span class="video-thumb-yt-badge">▶ YouTube</span>
+            <div class="video-play-icon"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+            <div class="video-thumb-overlay">
+              <div class="video-thumb-handle">@VCGConstruction</div>
+              <div class="video-thumb-title">Tool Reviews to 10× Commissions</div>
+            </div>
+          </div>
+        </a>
+        <div class="video-body">
+          <div class="video-creator">Vince Carneglia</div>
+          <div class="video-handle"><a href="https://www.youtube.com/@VCGConstruction" target="_blank">@VCGConstruction</a> · Tools · DIY · Construction</div>
+          <div class="video-result">
+            <strong>4–10× commissions</strong>
+            <span>vs traditional affiliate programs</span>
+          </div>
+          <div class="video-desc">Reviews of Milwaukee, DeWalt, Ryobi at real jobsites. Example: comparisons with Home Depot tags. His #VeryCoolGang community converts strongly thanks to high purchase intent.</div>
+        </div>
+      </div>
+
+    </div>
+
+    <h3>Other relevant cases</h3>
+    <div class="creators-mini-grid">
+      <div class="creator-mini">
+        <div class="creator-mini-name">ChicOnTheCheap · Sara Jane</div>
+        <div class="creator-mini-niche">Budget fashion & home</div>
+        <div class="creator-mini-result">~729K subs · Active Channel Store</div>
+        <div class="creator-mini-desc">Walmart hauls + decor. Featured case in the TR25 Shopping Report. Example: favorites video with multi-tags.</div>
+        <div class="creator-mini-note"><em>Note: there are dozens of videos in her feed, but the tags/stickers are not visible from our location (see section 05).</em></div>
+        <a href="https://www.youtube.com/c/ChicOnTheCheap" target="_blank">→ Channel</a>
+      </div>
+      <div class="creator-mini">
+        <div class="creator-mini-name">Steve Natto · @SteveNatto</div>
+        <div class="creator-mini-niche">Sneakers · Shorts</div>
+        <div class="creator-mini-result">Shorts product stickers anchor case</div>
+        <div class="creator-mini-desc">Cited by Google as an intensive Shorts tagging case (Nike, Adidas).</div>
+        <div class="creator-mini-note"><em>Note: there are dozens of videos in his feed, but the tags/stickers are not visible from our location (see section 05).</em></div>
+        <a href="https://www.youtube.com/@SteveNatto/shorts" target="_blank">→ Shorts feed</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider-decoration"></div>
+
+  <!-- BRANDS -->
+  <div class="section">
+    <span class="section-label">07 · Reference brands</span>
+    <h2>Documented brand cases</h2>
+    <p class="section-intro">Examples of brands operating with YouTube Shopping based on editorial coverage and published case studies. <strong>We can't visually verify the tags or the native Shopping experience</strong> from our region (see section 05) — the available evidence is the press article or video referenced in each card.</p>
+    <div class="brands-grid">
+
+      <div class="brand-card">
+        <div class="brand-name">BK Beauty</div>
+        <span class="brand-tag">DTC · Makeup brushes</span>
+        <p class="brand-impl"><strong>The play:</strong> Lisa Howigi (creator of the Lisa J Makeup channel) launched her own brand of makeup brushes because brushes appear in EVERY makeup video. She sells her brushes while doing tutorials with other brands' products.</p>
+        <p class="brand-impl"><strong>The result:</strong> USD 1M in year 1 → USD 10M+ by 2023. Anchor case in YouTube's official workSHOPPED podcast (Apr 2026).</p>
+        <a href="https://ppc.land/how-a-beauty-creator-turned-100-000-subscribers-into-a-youtube-shopping-brand/" class="brand-link" target="_blank">→ PPC Land case study</a>
+      </div>
+
+      <div class="brand-card">
+        <div class="brand-name">PillowtalkDerm (Dr. Idriss)</div>
+        <span class="brand-tag">DTC · Skincare · NYC</span>
+        <p class="brand-impl"><strong>The play:</strong> dermatologist built a community of 3M "Nerds" over 6 years with educational videos before selling any product. Co-founder is an ex-L'Oréal marketing veteran. Launched with only 3 products focused on hyperpigmentation (the "Major Fade" system).</p>
+        <p class="brand-impl"><strong>The result:</strong> sold out in less than 36 hours, entered Sephora USA, won an Allure Best of Beauty award. Official workSHOPPED YouTube episode (Mar 2026).</p>
+        <a href="https://www.youtube.com/watch?v=tXssRF5IsoM" class="brand-link" target="_blank">→ workSHOPPED · official episode</a>
+      </div>
+
+      <div class="brand-card">
+        <div class="brand-name">HexClad</div>
+        <span class="brand-tag">DTC · Cookware</span>
+        <p class="brand-impl"><strong>The play:</strong> premium pans (USD 200-400) are hard to sell online because people want to "see them". Solution: invade YouTube with cooking creators (Joshua Weissman, ChefSteps, etc.) demonstrating the product in real use + Gordon Ramsay as ambassador.</p>
+        <p class="brand-impl"><strong>The result:</strong> USD 350M in revenue, scaling ~10× in 4 years leveraging YouTube as the primary demo channel.</p>
+        <a href="https://www.thedigitalchapter.com/p/hexclad-digital-growth-marketing-stragtegy" class="brand-link" target="_blank">→ Digital Chapter · growth deep dive</a>
+      </div>
+
+      <div class="brand-card">
+        <div class="brand-name">SACHEU Beauty</div>
+        <span class="brand-tag">DTC · Beauty · Creator-turned-brand</span>
+        <p class="brand-impl"><strong>The play:</strong> Sarah Cheung (creator with ~870K YT subs) launched her line with a single hero product solving a concrete problem: the Lip Liner STAY-N peel-off. The brand grows on the back of tagging videos and reviews on YouTube and TikTok.</p>
+        <p class="brand-impl"><strong>The result:</strong> 4 billion product views on TikTok, bestseller ranking at Ulta and Sephora, Forbes 30 Under 30. Cited by name in YouTube's official TR25 Shopping Report as anchor case for "viral product via YT Shopping".</p>
+        <a href="https://www.youtube.com/trends/report/tr25-youtube-shopping/" class="brand-link" target="_blank">→ YouTube · TR25 Shopping Report</a>
+      </div>
+
+      <div class="brand-card">
+        <div class="brand-name">Glossier</div>
+        <span class="brand-tag">Beauty · Historic case 2022</span>
+        <p class="brand-impl"><strong>The play:</strong> first brand to sell via Shoppable Shorts. Launched the No.1 Pencil eyeliner with artist Kehlani and the hashtag #WrittenInGlossier — every Short with the hashtag automatically generated a shopping banner.</p>
+        <p class="brand-impl"><strong>The result:</strong> foundational case for the Shoppable Shorts category on YouTube.</p>
+        <div class="creator-mini-note"><em>Note: launch videos are available on YouTube, but the shoppable banner and tags are not visible from our location (see section 05).</em></div>
+        <a href="https://blog.youtube/news-and-events/youtube-shopping-beauty-festival-2022-shoppable-shorts-challenge/" class="brand-link" target="_blank">→ Beauty Festival 2022</a>
+      </div>
+
+      <div class="brand-card">
+        <div class="brand-name">Sephora</div>
+        <span class="brand-tag">Retail · Beauty</span>
+        <p class="brand-impl"><strong>The play:</strong> tutorials like "5 Minute Bun" and "PROs" where every product in the look is tagged individually in the Product Shelf below the video. Beauty directors host official Live Q&amp;As.</p>
+        <p class="brand-impl"><strong>The result:</strong> multi-touch mechanic that turns a single educational video into 5-10 cross-sell opportunities.</p>
+        <div class="creator-mini-note"><em>Note: tutorials are available on YouTube, but the tags/Product Shelf are not visible from our location (see section 05).</em></div>
+        <a href="https://www.youtube.com/watch?v=PkvOqGyB3sk" class="brand-link" target="_blank">→ Tagged tutorial example</a>
+      </div>
+
+      <div class="brand-card">
+        <div class="brand-name">Nike</div>
+        <span class="brand-tag">Sportswear · Apparel</span>
+        <p class="brand-impl"><strong>The play:</strong> aspirational content with athletes (Dina Asher-Smith, Ishod Wair) in the "Nike 24.7" collection + technical videos like "The Redesign of Nike Leggings" with tags by support level.</p>
+        <p class="brand-impl"><strong>The result:</strong> brand-aspirational content turned into a tagged-product showcase without losing editorial tone.</p>
+        <div class="creator-mini-note"><em>Note: official videos play normally, but product tags don't appear from our location (see section 05).</em></div>
+        <a href="https://www.youtube.com/watch?v=GVljFVClyws" class="brand-link" target="_blank">→ Nike Leggings official video</a>
+      </div>
+
+    </div>
+
+    <p class="section-intro" style="margin-top:18px">Other US brands confirmed in the program catalog: <strong>Etsy, Best Buy, SharkNinja, Michaels, Michael Kors, Ulta, Verizon, Rare Beauty, Abercrombie &amp; Fitch, West Elm, GoPure Beauty, Fenty, Benefit, Clinique, MAC Cosmetics</strong> (+2,500 retailers via Shopify integration).</p>
+  </div>
+
+  <div class="divider-decoration"></div>
+
+  <!-- TRAFILEA PERSPECTIVE -->
+  <div class="section">
+    <span class="section-label">08 · Trafilea perspective</span>
+    <h2>Actionable plays for the portfolio</h2>
+    <p class="section-intro">Direct mapping of the learnings to Trafilea brands (Shapermint, Truekind, SWC, BodCon). DTC categories with high affinity: shapewear, intimates, beauty.</p>
+    <div class="plays-grid">
+
+      <div class="play-card">
+        <div class="play-num">1</div>
+        <h4>Apply as a Shopify brand merchant</h4>
+        <p>Trafilea already runs on Shopify Plus. Enable the "Google &amp; YouTube" app to connect the Shapermint/Truekind catalog to the affiliate program. Playbook: BK Beauty, HexClad and GoPure Beauty as direct DTC early-adopter references.</p>
+        <div class="play-impact">Impact: access to the long tail of women 35–65 lifestyle/fashion creators</div>
+      </div>
+
+      <div class="play-card">
+        <div class="play-num">2</div>
+        <h4>Plug the catalog to 50–100 micro-creators</h4>
+        <p>Identify and onboard nano/micro-creators (10K–100K subs) in lifestyle/fashion/beauty for women 30+. The BK Beauty insight is clear: 20K-sub creators convert better than million-sub stars thanks to deeper trust.</p>
+        <div class="play-impact">Impact: similar to the existing Shapermint Creators model, scaled to YouTube</div>
+      </div>
+
+      <div class="play-card">
+        <div class="play-num">3</div>
+        <h4>Community-driven Shorts challenges</h4>
+        <p>Launch a hashtag challenge in Shorts (e.g. #SmoothFitChallenge) with in-house creators + organic UGC, tagging products in vertical format. Combine with an open brief to the community to iterate the product.</p>
+        <div class="play-impact">Impact: organic virality + direct conversion</div>
+      </div>
+
+      <div class="play-card">
+        <div class="play-num">4</div>
+        <h4>BF/CM 2026 with live shopping</h4>
+        <p>Coordinate 1–2 live shopping events Holiday Stream and Shop-style with 1 anchor creator from the women 35-65 segment. Exclusive drops, discounts, urgency. The US live shopping market goes from USD 17B (2024) to USD 35B (2026E).</p>
+        <div class="play-impact">Impact: combine BF/CM Meta-driven with a complementary channel</div>
+      </div>
+
+      <div class="play-card" style="border-left-color: var(--accent)">
+        <div class="play-num" style="background: var(--accent)">⚠</div>
+        <h4>Risks to monitor</h4>
+        <p>Complex cross-channel attribution with Meta paid (cannibalization vs. complement). Federated ecosystem vs TikTok's native checkout. Creator compliance on shapewear claims (sizing, results). Clear rules to avoid cannibalization with the in-house BodCon network.</p>
+        <div class="play-impact" style="color: var(--accent)">Mitigation: controlled Phase 1 pilot</div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="divider-decoration"></div>
+
+  <!-- APPENDIX -->
+  <div class="section">
+    <span class="section-label">09 · Appendix</span>
+    <h2>Sources and bibliography</h2>
+    <div class="appendix">
+      <div class="appendix-cols">
+        <div>
+          <h4>Official YouTube/Google documentation</h4>
+          <ul>
+            <li><a href="https://www.youtube.com/trends/report/tr25-youtube-shopping/" target="_blank">YouTube Trends · TR25 YouTube Shopping Report (full report)</a></li>
+            <li><a href="https://blog.youtube/culture-and-trends/tr25-youtube-shopping-report/" target="_blank">YouTube Blog · TR25 Shopping Report announcement</a></li>
+            <li><a href="https://blog.youtube/creator-and-artist-stories/youtube-shopping-expansion-500-subscribers/" target="_blank">YouTube Blog · 500-sub expansion (Mar 2026)</a></li>
+            <li><a href="https://blog.youtube/news-and-events/shopify-expansion/" target="_blank">YouTube Blog · Shopify expansion (Aug 2024)</a></li>
+            <li><a href="https://blog.youtube/news-and-events/shop-live-with-your-favorite-creators/" target="_blank">YouTube Blog · Holiday Stream &amp; Shop</a></li>
+            <li><a href="https://blog.youtube/creator-and-artist-stories/apac-creators-unbox-their-youtube-shopping-journey/" target="_blank">YouTube Blog · 4 APAC creators</a></li>
+            <li><a href="https://blog.youtube/creator-and-artist-stories/creator-tips-youtube-shopping-merch/" target="_blank">YouTube Blog · 4 creators success</a></li>
+            <li><a href="https://blog.youtube/creator-and-artist-stories/shopping-creators-on-the-rise/" target="_blank">YouTube Blog · Shopping creators on the rise</a></li>
+            <li><a href="https://blog.youtube/news-and-events/youtube-shopping-beauty-festival-2022-shoppable-shorts-challenge/" target="_blank">YouTube Blog · Beauty Festival &amp; Glossier Challenge</a></li>
+            <li><a href="https://blog.google/products/ads-commerce/live-shopping-update/" target="_blank">Google Blog · Live Shopping (Hyram, Simply Nailogical, Walmart, Sephora, Target)</a></li>
+            <li><a href="https://www.youtube.com/watch?v=tXssRF5IsoM" target="_blank">workSHOPPED · Building a Brand with Dr. Shereene Idriss</a></li>
+            <li><a href="https://support.google.com/youtube/answer/12257682?hl=en" target="_blank">YouTube Help · Get started with Shopping</a></li>
+            <li><a href="https://support.google.com/youtube/answer/13376398" target="_blank">YouTube Help · Affiliate Program eligibility</a></li>
+            <li><a href="https://www.youtube.com/creators/partner-program/shopping/" target="_blank">YouTube Creators · official page</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Press, analysis, and brand cases</h4>
+          <ul>
+            <li><a href="https://techcrunch.com/2025/09/16/youtube-unveils-new-ways-for-creators-to-earn-with-brand-deals-youtube-shopping-program/" target="_blank">TechCrunch · Sept 2025 brand deals announcement</a></li>
+            <li><a href="https://techcrunch.com/2025/06/18/youtube-launches-new-shopping-product-stickers-for-shorts/" target="_blank">TechCrunch · Shorts product stickers (Jun 2025)</a></li>
+            <li><a href="https://www.netinfluencer.com/youtube-shopping-reaches-an-inflection-point-as-tv-search-and-creator-trust-converge/" target="_blank">Net Influencer · Inflection Point</a></li>
+            <li><a href="https://ppc.land/how-a-beauty-creator-turned-100-000-subscribers-into-a-youtube-shopping-brand/" target="_blank">PPC Land · BK Beauty case study</a></li>
+            <li><a href="https://ppc.land/youtube-opens-shopping-affiliate-program-to-creators-with-500-subscribers/" target="_blank">PPC Land · 500 subs threshold</a></li>
+            <li><a href="https://influencermarketinghub.com/youtube-shopping-affiliate-shorts/" target="_blank">Influencer Marketing Hub · Commission &amp; Conversion</a></li>
+            <li><a href="https://influencermarketinghub.com/youtube-shopping-affiliate-bfcm-christmas/" target="_blank">Influencer Marketing Hub · BF/CM levers</a></li>
+            <li><a href="https://www.modernretail.co/technology/how-youtube-shopping-is-upping-its-social-commerce-competition-with-tiktok/" target="_blank">Modern Retail · vs TikTok</a></li>
+            <li><a href="https://www.shopify.com/blog/youtube-shopping" target="_blank">Shopify · Beginner's Guide</a></li>
+            <li><a href="https://www.thedigitalchapter.com/p/hexclad-digital-growth-marketing-stragtegy" target="_blank">Digital Chapter · HexClad growth deep dive</a></li>
+            <li><a href="https://www.marketingdive.com/news/youtube-glossier-beauty-festival-makeup/625173/" target="_blank">Marketing Dive · Glossier Challenge</a></li>
+            <li><a href="https://www.tubefilter.com/2021/10/19/youtube-weeklong-live-holiday-shopping-event-merrell-twins/" target="_blank">Tubefilter · Holiday Stream lineup</a></li>
+            <li><a href="https://marketingltb.com/blog/statistics/youtube-shopping-statistics/" target="_blank">Marketing LTB · Statistics 2026</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">
+    YouTube Shopping — Executive Brief · Trafilea Research, May 2026 · Synthesis of Claude + Gemini research · 60+ verifiable sources
+  </div>
+
+</div>
+
+<script>
+(function() {
+  if (typeof Chart === 'undefined') return;
+
+  Chart.defaults.font.family = "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif";
+  Chart.defaults.font.size = 11;
+  Chart.defaults.color = '#374151';
+  Chart.defaults.plugins.legend.position = 'bottom';
+  Chart.defaults.plugins.legend.labels.boxWidth = 12;
+  Chart.defaults.plugins.legend.labels.padding = 12;
+
+  // CHART 1 — GROWTH OF SHOPPING CONTENT HOURS
+  new Chart(document.getElementById('chartGrowth'), {
+    type: 'bar',
+    data: {
+      labels: ['2022', '2023', '2024-2025'],
+      datasets: [{
+        label: 'Billion hours (B)',
+        data: [10, 30, 35],
+        backgroundColor: ['#CBD5E1', '#1E40AF', '#FF0033'],
+        borderRadius: 6,
+        borderSkipped: false,
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },
+        tooltip: { callbacks: { label: (ctx) => ctx.parsed.y + 'B hours' } }
+      },
+      scales: {
+        y: {
+          beginAtZero: true,
+          ticks: { callback: (v) => v + 'B' },
+          grid: { color: '#F3F4F6' }
+        },
+        x: { grid: { display: false } }
+      }
+    }
+  });
+
+  // CHART 2 — COMMISSIONS BY CATEGORY
+  new Chart(document.getElementById('chartCommissions'), {
+    type: 'bar',
+    data: {
+      labels: ['Beauty / Personal care', 'Fashion / Apparel', 'Home / Decor', 'Mass retail (Walmart, Target)', 'Electronics / Hardware'],
+      datasets: [
+        {
+          label: 'Min %',
+          data: [10, 12, 8, 5, 1],
+          backgroundColor: '#CBD5E1',
+          borderRadius: 4,
+          stack: 'range'
+        },
+        {
+          label: 'Max %',
+          data: [10, 8, 7, 5, 14],
+          backgroundColor: '#FF0033',
+          borderRadius: 4,
+          stack: 'range'
+        }
+      ]
+    },
+    options: {
+      indexAxis: 'y',
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { display: true },
+        tooltip: {
+          callbacks: {
+            label: (ctx) => {
+              const i = ctx.dataIndex;
+              const min = ctx.chart.data.datasets[0].data[i];
+              const max = min + ctx.chart.data.datasets[1].data[i];
+              return `Range: ${min}–${max}%`;
+            }
+          }
+        }
+      },
+      scales: {
+        x: {
+          stacked: true,
+          beginAtZero: true,
+          ticks: { callback: (v) => v + '%' },
+          grid: { color: '#F3F4F6' }
+        },
+        y: { stacked: true, grid: { display: false } }
+      }
+    }
+  });
+
+  // CHART 3 — RADAR: YT vs TikTok vs IG
+  new Chart(document.getElementById('chartCompare'), {
+    type: 'radar',
+    data: {
+      labels: ['Creator trust', 'High tickets / consideration', 'Attribution (window)', 'GMV / Impulse speed', 'Global audience', 'Cross-generational'],
+      datasets: [
+        {
+          label: 'YouTube Shopping',
+          data: [9, 9, 9, 6, 10, 10],
+          borderColor: '#FF0033',
+          backgroundColor: 'rgba(255,0,51,0.15)',
+          borderWidth: 2,
+          pointBackgroundColor: '#FF0033'
+        },
+        {
+          label: 'TikTok Shop',
+          data: [7, 5, 4, 10, 7, 5],
+          borderColor: '#0D9488',
+          backgroundColor: 'rgba(13,148,136,0.15)',
+          borderWidth: 2,
+          pointBackgroundColor: '#0D9488'
+        },
+        {
+          label: 'Instagram Shop',
+          data: [6, 7, 4, 6, 8, 7],
+          borderColor: '#1E40AF',
+          backgroundColor: 'rgba(30,64,175,0.12)',
+          borderWidth: 2,
+          pointBackgroundColor: '#1E40AF'
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { position: 'bottom' }
+      },
+      scales: {
+        r: {
+          min: 0,
+          max: 10,
+          ticks: { stepSize: 2, backdropColor: 'transparent', font: { size: 9 } },
+          grid: { color: '#E5E7EB' },
+          angleLines: { color: '#E5E7EB' },
+          pointLabels: { font: { size: 10, weight: 600 }, color: '#0F2A47' }
+        }
+      }
+    }
+  });
+
+  // CHART 4 — LIFTS / BENCHMARKS (horizontal bars for legibility)
+  new Chart(document.getElementById('chartLifts'), {
+    type: 'bar',
+    data: {
+      labels: [
+        '+40% clicks: Shorts with sticker vs button',
+        '+43% clicks: tags with auto-timestamp vs description',
+        '89% trust YT creator recommendations',
+        '79% Gen Z trust creator recommendations',
+        '2.3× LT-ROAS of YT creator marketing vs paid social',
+        '+10-20% conversion of Shorts (vertical) vs horizontal'
+      ],
+      datasets: [{
+        label: 'Lift / value',
+        data: [40, 43, 89, 79, 230, 15],
+        backgroundColor: [
+          '#FF0033',
+          '#FF6B7A',
+          '#0D9488',
+          '#14B8A6',
+          '#D97706',
+          '#1E40AF'
+        ],
+        borderRadius: 5,
+        borderSkipped: false,
+      }]
+    },
+    options: {
+      indexAxis: 'y',
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          callbacks: {
+            label: (ctx) => {
+              const tips = [
+                '+40% more clicks',
+                '+43% more clicks',
+                '89% trust',
+                '79% Gen Z',
+                '2.3× LT-ROAS (230%)',
+                '+10-20% conversion'
+              ];
+              return tips[ctx.dataIndex];
+            }
+          }
+        }
+      },
+      scales: {
+        x: {
+          beginAtZero: true,
+          ticks: { callback: (v) => v + (v >= 100 ? '%' : '%') },
+          grid: { color: '#F3F4F6' }
+        },
+        y: {
+          grid: { display: false },
+          ticks: { font: { size: 10.5 }, autoSkip: false }
+        }
+      }
+    }
+  });
+})();
+</script>
+
+</body>
+</html>
